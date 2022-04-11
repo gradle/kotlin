@@ -30,6 +30,7 @@ import org.jetbrains.kotlin.gradle.tasks.CompilerPluginOptions
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.gradle.tasks.toCompilerPluginOptions
 import org.jetbrains.kotlin.gradle.utils.isConfigurationCacheAvailable
+import org.jetbrains.kotlin.gradle.utils.listProperty
 import java.io.File
 import java.util.concurrent.Callable
 
@@ -194,14 +195,16 @@ internal class KaptWithoutKotlincConfig : KaptConfig<KaptWithoutKotlincTask> {
     constructor(kotlinCompileTask: KotlinCompile, ext: KaptExtension) : super(kotlinCompileTask, ext) {
         project.configurations.findByName(Kapt3GradleSubplugin.KAPT_WORKER_DEPENDENCIES_CONFIGURATION_NAME)
             ?: project.configurations.create(Kapt3GradleSubplugin.KAPT_WORKER_DEPENDENCIES_CONFIGURATION_NAME).apply {
-                val kaptDependency = "org.jetbrains.kotlin:kotlin-annotation-processing-gradle:${project.getKotlinPluginVersion()}"
-                dependencies.add(project.dependencies.create(kaptDependency))
-                dependencies.add(
-                    project.kotlinDependency(
-                        "kotlin-stdlib",
-                        project.topLevelExtension.coreLibrariesVersion
+                dependencies.addAllLater(project.listProperty {
+                    val kaptDependency = "org.jetbrains.kotlin:kotlin-annotation-processing-gradle:${project.getKotlinPluginVersion()}"
+                    listOf(
+                        project.dependencies.create(kaptDependency),
+                        project.kotlinDependency(
+                            "kotlin-stdlib",
+                            project.topLevelExtension.coreLibrariesVersion
+                        )
                     )
-                )
+                })
             }
 
         configureTask { task ->
