@@ -27,7 +27,7 @@ interface KotlinJvmFactory {
     val pluginVersion: String
 
     /** Creates instance of DSL object that should be used to configure JVM/android specific compilation. */
-    fun createKotlinJvmDsl(): KotlinJvmOptions
+    fun createKotlinJvmOptions(): KotlinJvmOptions
 
     /** Creates a Kotlin compile task. */
     fun registerKotlinJvmCompileTask(taskName: String): TaskProvider<out KotlinJvmCompile>

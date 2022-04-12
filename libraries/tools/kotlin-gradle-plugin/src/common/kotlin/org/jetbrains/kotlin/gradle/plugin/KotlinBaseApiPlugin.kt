@@ -46,7 +46,7 @@ abstract class KotlinBaseApiPlugin : KotlinBasePlugin(), KotlinJvmFactory {
         return myProject.configurations.getByName(PLUGIN_CLASSPATH_CONFIGURATION_NAME)
     }
 
-    override fun createKotlinJvmDsl(): KotlinJvmOptions {
+    override fun createKotlinJvmOptions(): KotlinJvmOptions {
         return KotlinJvmOptionsImpl()
     }
 

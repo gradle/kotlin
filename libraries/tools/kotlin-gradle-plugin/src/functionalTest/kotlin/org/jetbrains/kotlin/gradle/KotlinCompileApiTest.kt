@@ -140,7 +140,7 @@ class KotlinCompileApiTest {
 
     @Test
     fun testParentKotlinOptions() {
-        val parentOptions = plugin.createKotlinJvmDsl()
+        val parentOptions = plugin.createKotlinJvmOptions()
         parentOptions.moduleName = "foo"
         parentOptions.javaParameters = true
         parentOptions.languageVersion = "lang_version"
