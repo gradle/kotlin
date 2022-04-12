@@ -33,7 +33,7 @@ public:
     };
 
     class ObjectData {
-        static inline constexpr unsigned colorMask = (1 << 2) - 1;
+        static inline constexpr unsigned colorMask = (1 << 1) - 1;
 
     public:
         enum class Color : unsigned {
