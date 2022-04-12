@@ -94,10 +94,10 @@ public class Char private constructor() : Comparable<Char> {
     public fun toDouble(): Double
 
     @kotlin.internal.IntrinsicConstEvaluation
-    public override fun equals(other: Any?): Boolean
+    public override fun equals(other: Any?): Boolean = super.equals(other)
 
     @kotlin.internal.IntrinsicConstEvaluation
-    public override fun toString(): String
+    public override fun toString(): String = super.toString()
 
     companion object {
         /**

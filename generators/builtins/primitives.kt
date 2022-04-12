@@ -466,13 +466,13 @@ class GeneratePrimitives(out: PrintWriter) : BuiltInsSourceGenerator(out) {
 
     private fun generateEquals() {
         out.println("    @kotlin.internal.IntrinsicConstEvaluation")
-        out.println("    public override fun equals(other: Any?): Boolean")
+        out.println("    public override fun equals(other: Any?): Boolean = super.equals(other)")
         out.println()
     }
 
     private fun generateToString() {
         out.println("    @kotlin.internal.IntrinsicConstEvaluation")
-        out.println("    public override fun toString(): String")
+        out.println("    public override fun toString(): String = super.toString()")
     }
 }
 

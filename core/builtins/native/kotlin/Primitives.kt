@@ -300,10 +300,10 @@ public class Byte private constructor() : Number(), Comparable<Byte> {
     public override fun toDouble(): Double
 
     @kotlin.internal.IntrinsicConstEvaluation
-    public override fun equals(other: Any?): Boolean
+    public override fun equals(other: Any?): Boolean = super.equals(other)
 
     @kotlin.internal.IntrinsicConstEvaluation
-    public override fun toString(): String
+    public override fun toString(): String = super.toString()
 }
 
 /**
@@ -597,10 +597,10 @@ public class Short private constructor() : Number(), Comparable<Short> {
     public override fun toDouble(): Double
 
     @kotlin.internal.IntrinsicConstEvaluation
-    public override fun equals(other: Any?): Boolean
+    public override fun equals(other: Any?): Boolean = super.equals(other)
 
     @kotlin.internal.IntrinsicConstEvaluation
-    public override fun toString(): String
+    public override fun toString(): String = super.toString()
 }
 
 /**
@@ -936,10 +936,10 @@ public class Int private constructor() : Number(), Comparable<Int> {
     public override fun toDouble(): Double
 
     @kotlin.internal.IntrinsicConstEvaluation
-    public override fun equals(other: Any?): Boolean
+    public override fun equals(other: Any?): Boolean = super.equals(other)
 
     @kotlin.internal.IntrinsicConstEvaluation
-    public override fun toString(): String
+    public override fun toString(): String = super.toString()
 }
 
 /**
@@ -1279,10 +1279,10 @@ public class Long private constructor() : Number(), Comparable<Long> {
     public override fun toDouble(): Double
 
     @kotlin.internal.IntrinsicConstEvaluation
-    public override fun equals(other: Any?): Boolean
+    public override fun equals(other: Any?): Boolean = super.equals(other)
 
     @kotlin.internal.IntrinsicConstEvaluation
-    public override fun toString(): String
+    public override fun toString(): String = super.toString()
 }
 
 /**
@@ -1581,10 +1581,10 @@ public class Float private constructor() : Number(), Comparable<Float> {
     public override fun toDouble(): Double
 
     @kotlin.internal.IntrinsicConstEvaluation
-    public override fun equals(other: Any?): Boolean
+    public override fun equals(other: Any?): Boolean = super.equals(other)
 
     @kotlin.internal.IntrinsicConstEvaluation
-    public override fun toString(): String
+    public override fun toString(): String = super.toString()
 }
 
 /**
@@ -1885,9 +1885,9 @@ public class Double private constructor() : Number(), Comparable<Double> {
     public override fun toDouble(): Double
 
     @kotlin.internal.IntrinsicConstEvaluation
-    public override fun equals(other: Any?): Boolean
+    public override fun equals(other: Any?): Boolean = super.equals(other)
 
     @kotlin.internal.IntrinsicConstEvaluation
-    public override fun toString(): String
+    public override fun toString(): String = super.toString()
 }
 
