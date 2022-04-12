@@ -1743,6 +1743,11 @@ internal class CodeGeneratorVisitor(val context: Context, val lifetimes: Map<IrE
         return context.config.freezing.enableFreezeChecks && !irClass.isFrozen(context)
     }
 
+    private fun needLifetimeConstraintsCheck(valueToAssign: LLVMValueRef, irClass: IrClass): Boolean {
+        // TODO: Likely, we don't need isFrozen check here at all.
+        return functionGenerationContext.isObjectType(valueToAssign.type) && !irClass.isFrozen(context)
+    }
+
     private fun isZeroConstValue(value: IrExpression): Boolean {
         if (value !is IrConst<*>) return false
         return when (value.kind) {
@@ -1782,7 +1787,7 @@ internal class CodeGeneratorVisitor(val context: Context, val lifetimes: Map<IrE
                         listOf(functionGenerationContext.bitcast(codegen.kObjHeaderPtr, thisPtr)),
                         Lifetime.IRRELEVANT, currentCodeContext.exceptionHandler)
             }
-            if (functionGenerationContext.isObjectType(valueToAssign.type) && !parentAsClass.isFrozen(context)) {
+            if (needLifetimeConstraintsCheck(valueToAssign, parentAsClass)) {
                 functionGenerationContext.call(context.llvm.checkLifetimesConstraint, listOf(thisPtr, valueToAssign))
             }
             functionGenerationContext.storeAny(valueToAssign, fieldPtrOfClass(thisPtr, value.symbol.owner), false)
