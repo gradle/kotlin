@@ -51,7 +51,6 @@ class UpToDateIT : KGPBaseTest() {
                 emptyMutation,
                 OptionMutation("compileKotlin.kotlinOptions.jvmTarget", "'1.8'", "'11'"),
                 OptionMutation("compileKotlin.kotlinOptions.freeCompilerArgs", "[]", "['-Xallow-kotlin-package']"),
-                OptionMutation("kotlin.experimental.coroutines", "'error'", "'enable'"),
                 OptionMutation("archivesBaseName", "'someName'", "'otherName'"),
                 subpluginOptionMutation,
                 subpluginOptionMutationWithKapt,
