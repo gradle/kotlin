@@ -38,7 +38,7 @@ abstract class KaptWithoutKotlincTask @Inject constructor(
     objectFactory: ObjectFactory,
     private val providerFactory: ProviderFactory,
     private val workerExecutor: WorkerExecutor
-) : Kapt(objectFactory), Kapt {
+) : KaptTask(objectFactory), Kapt {
 
     @get:Input
     var classLoadersCacheSize: Int = 0
