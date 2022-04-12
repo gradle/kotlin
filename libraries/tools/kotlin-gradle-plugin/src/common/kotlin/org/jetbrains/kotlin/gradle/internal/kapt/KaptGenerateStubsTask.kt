@@ -27,7 +27,7 @@ import org.gradle.work.NormalizeLineEndings
 import org.gradle.workers.WorkerExecutor
 import org.jetbrains.kotlin.cli.common.arguments.K2JVMCompilerArguments
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptionsImpl
-import org.jetbrains.kotlin.gradle.tasks.KaptGenerateStubsApi
+import org.jetbrains.kotlin.gradle.tasks.KaptGenerateStubs
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.gradle.tasks.toSingleCompilerPluginOptions
 import org.jetbrains.kotlin.gradle.utils.isParentOf
@@ -40,11 +40,11 @@ import javax.inject.Inject
 abstract class KaptGenerateStubsTask @Inject constructor(
     workerExecutor: WorkerExecutor,
     objectFactory: ObjectFactory
-) : KaptGenerateStubsApi, KotlinCompile(
+) : KotlinCompile(
     KotlinJvmOptionsImpl(),
     workerExecutor,
     objectFactory
-) {
+), KaptGenerateStubs {
 
     @get:Internal
     internal abstract val excludedSourceDirs: ListProperty<File>

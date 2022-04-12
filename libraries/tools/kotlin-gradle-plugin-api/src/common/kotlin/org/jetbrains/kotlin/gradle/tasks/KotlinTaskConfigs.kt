@@ -8,23 +8,52 @@ package org.jetbrains.kotlin.gradle.tasks
 import org.gradle.api.Task
 import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.file.FileCollection
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.*
+import org.gradle.api.tasks.util.PatternFilterable
 import org.gradle.work.Incremental
+import org.gradle.work.NormalizeLineEndings
 import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 import org.jetbrains.kotlin.gradle.plugin.CompilerPluginConfig
 
-interface BaseKotlinCompile : Task {
+interface KotlinCompileTool : PatternFilterable, Task {
+    @get:InputFiles
+    @get:SkipWhenEmpty
+    @get:NormalizeLineEndings
+    @get:IgnoreEmptyDirectories
+    @get:PathSensitive(PathSensitivity.RELATIVE)
+    val sources: FileCollection
+
+    /**
+     * Sets sources for this task.
+     * The given sources object is evaluated as per [org.gradle.api.Project.files].
+     */
+    fun source(vararg sources: Any)
+
+    /**
+     * Sets sources for this task.
+     * The given sources object is evaluated as per [org.gradle.api.Project.files].
+     */
+    fun setSource(vararg sources: Any)
+
+    @get:Classpath
+    @get:NormalizeLineEndings
+    @get:Incremental
+    val libraries: ConfigurableFileCollection
+
     @get:OutputDirectory
     val destinationDirectory: DirectoryProperty
+}
 
-    val libraries: ConfigurableFileCollection
+interface BaseKotlinCompile : KotlinCompileTool {
 
     @get:Internal
     val friendPaths: ConfigurableFileCollection
 
+    @get:NormalizeLineEndings
     @get:Classpath
     val pluginClasspath: ConfigurableFileCollection
 
@@ -45,16 +74,28 @@ interface BaseKotlinCompile : Task {
 }
 
 interface KotlinJvmCompile : BaseKotlinCompile, KotlinCompile<KotlinJvmOptions> {
-//    fun setSource(sources: Any)
-//
-//    fun source(vararg sources: Any): SourceTask
+
+    @Deprecated(
+        "Replaced with 'libraries' input",
+        replaceWith = ReplaceWith("libraries")
+    )
+    fun setClasspath(classpath: FileCollection) {
+        libraries.setFrom(classpath)
+    }
+
+    @Deprecated(
+        "Replaced with 'libraries' input",
+        replaceWith = ReplaceWith("libraries")
+    )
+    @Internal
+    fun getClasspath(): FileCollection = libraries
 
     // JVM specific
     @get:Internal("Takes part in compiler args.")
     val parentKotlinOptionsImpl: Property<KotlinJvmOptions>
 }
 
-interface KaptGenerateStubsApi : KotlinJvmCompile {
+interface KaptGenerateStubs : KotlinJvmCompile {
     @get:OutputDirectory
     val stubsDir: DirectoryProperty
 
@@ -62,10 +103,11 @@ interface KaptGenerateStubsApi : KotlinJvmCompile {
     val kaptClasspath: ConfigurableFileCollection
 }
 
-interface BaseKaptTaskApi : Task {
+interface BaseKapt : Task {
 
     //part of kaptClasspath consisting from external artifacts only
     //basically kaptClasspath = kaptExternalClasspath + artifacts built locally
+    @get:NormalizeLineEndings
     @get:Classpath
     val kaptExternalClasspath: ConfigurableFileCollection
 
@@ -94,6 +136,7 @@ interface BaseKaptTaskApi : Task {
     @get:Internal
     val stubsDir: DirectoryProperty
 
+    @get:NormalizeLineEndings
     @get:Classpath
     val kaptClasspath: ConfigurableFileCollection
 
@@ -108,6 +151,7 @@ interface BaseKaptTaskApi : Task {
     val sourceSetName: Property<String>
 
     @get:InputFiles
+    @get:NormalizeLineEndings
     @get:IgnoreEmptyDirectories
     @get:Incremental
     @get:PathSensitive(PathSensitivity.RELATIVE)
@@ -120,11 +164,12 @@ interface BaseKaptTaskApi : Task {
     val defaultJavaSourceCompatibility: Property<String>
 }
 
-interface KaptTaskApi : BaseKaptTaskApi {
+interface Kapt : BaseKapt {
 
     @get:Input
     val addJdkClassesToClasspath: Property<Boolean>
 
+    @get:NormalizeLineEndings
     @get:Classpath
     val kaptJars: ConfigurableFileCollection
 }

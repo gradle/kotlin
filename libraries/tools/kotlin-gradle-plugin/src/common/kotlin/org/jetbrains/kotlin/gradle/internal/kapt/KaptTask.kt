@@ -33,7 +33,7 @@ abstract class KaptTask @Inject constructor(
 ) : DefaultTask(),
     TaskWithLocalState,
     UsesKotlinJavaToolchain,
-    BaseKaptTaskApi{
+    BaseKapt {
 
     init {
         cacheOnlyIfEnabledForKotlin()

@@ -14,7 +14,6 @@ import org.gradle.api.file.*
 import org.gradle.api.invocation.Gradle
 import org.gradle.api.logging.Logger
 import org.gradle.api.model.ObjectFactory
-import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.provider.Provider
 import org.gradle.api.provider.SetProperty
@@ -77,7 +76,7 @@ const val USING_JS_IR_BACKEND_MESSAGE = "Using Kotlin/JS IR backend"
 abstract class AbstractKotlinCompileTool<T : CommonToolArguments> @Inject constructor(
     objectFactory: ObjectFactory
 ) : DefaultTask(),
-    PatternFilterable,
+    KotlinCompileTool,
     CompilerArgumentAwareWithInput<T>,
     TaskWithLocalState {
 
@@ -91,30 +90,17 @@ abstract class AbstractKotlinCompileTool<T : CommonToolArguments> @Inject constr
 
     private val sourceFiles = objectFactory.fileCollection()
 
-    @get:InputFiles
-    @get:SkipWhenEmpty
-    @get:NormalizeLineEndings
-    @get:IgnoreEmptyDirectories
-    @get:PathSensitive(PathSensitivity.RELATIVE)
-    open val sources: FileCollection = objectFactory.fileCollection()
+    override val sources: FileCollection = objectFactory.fileCollection()
         .from(
             { sourceFiles.asFileTree.matching(patternFilterable) }
         )
 
-    /**
-     * Sets the source for this task.
-     * The given source object is evaluated as per [org.gradle.api.Project.files].
-     */
-    open fun setSource(source: Any) {
-        sourceFiles.from(source)
+    override fun source(vararg sources: Any) {
+        sourceFiles.from(sources)
     }
 
-    /**
-     * Sets the source for this task.
-     * The given source object is evaluated as per [org.gradle.api.Project.files].
-     */
-    open fun setSource(vararg source: Any) {
-        sourceFiles.from(source)
+    override fun setSource(vararg sources: Any) {
+        sourceFiles.from(sources)
     }
 
     fun disallowSourceChanges() {
@@ -166,14 +152,6 @@ abstract class AbstractKotlinCompileTool<T : CommonToolArguments> @Inject constr
     final override fun exclude(excludeSpec: Closure<*>): PatternFilterable = also {
         patternFilterable.exclude(excludeSpec)
     }
-
-    @get:Classpath
-    @get:NormalizeLineEndings
-    @get:Incremental
-    abstract val libraries: ConfigurableFileCollection
-
-    @get:OutputDirectory
-    abstract val destinationDirectory: DirectoryProperty
 
     @get:Internal
     override val metrics: Property<BuildMetricsReporter> = project.objects
@@ -254,7 +232,8 @@ abstract class GradleCompileTaskProvider @Inject constructor(
 abstract class AbstractKotlinCompile<T : CommonCompilerArguments> @Inject constructor(
     objectFactory: ObjectFactory
 ) : AbstractKotlinCompileTool<T>(objectFactory),
-    CompileUsingKotlinDaemonWithNormalization, BaseKotlinCompile {
+    CompileUsingKotlinDaemonWithNormalization,
+    BaseKotlinCompile {
 
     init {
         cacheOnlyIfEnabledForKotlin()
@@ -544,21 +523,6 @@ abstract class KotlinCompile @Inject constructor(
 
     @get:Internal // To support compile avoidance (ClasspathSnapshotProperties.classpathSnapshot will be used as input instead)
     abstract override val libraries: ConfigurableFileCollection
-
-    @Deprecated(
-        "Replaced with 'libraries' input",
-        replaceWith = ReplaceWith("libraries")
-    )
-    @Internal
-    fun getClasspath(): FileCollection = libraries
-
-    @Deprecated(
-        "Replaced with 'libraries' input",
-        replaceWith = ReplaceWith("libraries")
-    )
-    fun setClasspath(configuration: FileCollection) {
-        libraries.setFrom(configuration)
-    }
 
     @get:Input
     abstract val useKotlinAbiSnapshot: Property<Boolean>
@@ -855,17 +819,17 @@ abstract class KotlinCompile @Inject constructor(
         }
 
     // override setSource to track Java and script sources as well
-    override fun setSource(source: Any) {
-        javaSourceFiles.from(source)
-        scriptSourceFiles.from(source)
-        super.setSource(source)
+    override fun source(vararg sources: Any) {
+        javaSourceFiles.from(sources)
+        scriptSourceFiles.from(sources)
+        super.setSource(sources)
     }
 
     // override source to track Java and script sources as well
-    override fun setSource(vararg source: Any) {
-        javaSourceFiles.from(*source)
-        scriptSourceFiles.from(*source)
-        super.setSource(*source)
+    override fun setSource(vararg sources: Any) {
+        javaSourceFiles.from(*sources)
+        scriptSourceFiles.from(*sources)
+        super.setSource(*sources)
     }
 
     private fun getClasspathChanges(inputChanges: InputChanges): ClasspathChanges = when {

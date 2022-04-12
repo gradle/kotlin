@@ -10,8 +10,8 @@ import org.gradle.api.tasks.TaskProvider
 import org.jetbrains.kotlin.gradle.dsl.KaptExtensionConfig
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 import org.jetbrains.kotlin.gradle.dsl.KotlinTopLevelExtensionConfig
-import org.jetbrains.kotlin.gradle.tasks.KaptGenerateStubsApi
-import org.jetbrains.kotlin.gradle.tasks.KaptTaskApi
+import org.jetbrains.kotlin.gradle.tasks.KaptGenerateStubs
+import org.jetbrains.kotlin.gradle.tasks.Kapt
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 /** An API used by third-party plugins to integration with the Kotlin Gradle plugin. */
@@ -32,10 +32,10 @@ interface KotlinJvmFactory {
     fun createKotlinCompileTask(taskName: String): TaskProvider<out KotlinJvmCompile>
 
     /** Creates a stub generation task which creates Java sources stubs from Kotlin sources. */
-    fun createKaptGenerateStubsTask(taskName: String): TaskProvider<out KaptGenerateStubsApi>
+    fun createKaptGenerateStubsTask(taskName: String): TaskProvider<out KaptGenerateStubs>
 
     /** Creates a KAPT task which runs annotation processing. */
-    fun createKaptTask(taskName: String): TaskProvider<out KaptTaskApi>
+    fun createKaptTask(taskName: String): TaskProvider<out Kapt>
 
     /** Adds a compiler plugin dependency to this project. This can be e.g a Maven coordinate or a project included in the build. */
     fun addCompilerPluginDependency(dependency: Any)
