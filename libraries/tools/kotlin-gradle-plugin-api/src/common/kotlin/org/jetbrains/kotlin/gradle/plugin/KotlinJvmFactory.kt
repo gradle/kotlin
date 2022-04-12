@@ -29,13 +29,13 @@ interface KotlinJvmFactory {
     fun createKotlinJvmDsl(): KotlinJvmOptions
 
     /** Creates a Kotlin compile task. */
-    fun createKotlinCompileTask(taskName: String): TaskProvider<out KotlinJvmCompile>
+    fun registerKotlinJvmCompileTask(taskName: String): TaskProvider<out KotlinJvmCompile>
 
     /** Creates a stub generation task which creates Java sources stubs from Kotlin sources. */
-    fun createKaptGenerateStubsTask(taskName: String): TaskProvider<out KaptGenerateStubs>
+    fun registerKaptGenerateStubsTask(taskName: String): TaskProvider<out KaptGenerateStubs>
 
     /** Creates a KAPT task which runs annotation processing. */
-    fun createKaptTask(taskName: String): TaskProvider<out Kapt>
+    fun registerKaptTask(taskName: String): TaskProvider<out Kapt>
 
     /** Adds a compiler plugin dependency to this project. This can be e.g a Maven coordinate or a project included in the build. */
     fun addCompilerPluginDependency(dependency: Any)

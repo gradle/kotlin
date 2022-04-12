@@ -54,20 +54,20 @@ abstract class KotlinBaseApiPlugin : KotlinBasePlugin(), KotlinJvmFactory {
         myProject.objects.newInstance(KaptExtension::class.java)
     }
 
-    override fun createKotlinCompileTask(taskName: String): TaskProvider<out KotlinJvmCompile> {
+    override fun registerKotlinJvmCompileTask(taskName: String): TaskProvider<out KotlinJvmCompile> {
         return taskCreator.registerKotlinJVMTask(
             myProject, taskName, KotlinJvmOptionsImpl(), KotlinCompileConfig(myProject, kotlinExtension)
         )
     }
 
-    override fun createKaptGenerateStubsTask(taskName: String): TaskProvider<out KaptGenerateStubs> {
+    override fun registerKaptGenerateStubsTask(taskName: String): TaskProvider<out KaptGenerateStubs> {
         val taskConfig = KaptGenerateStubsConfig(myProject, kotlinExtension, kaptExtension)
         return myProject.registerTask(taskName, KaptGenerateStubsTask::class.java, emptyList()).also {
             taskConfig.execute(it)
         }
     }
 
-    override fun createKaptTask(taskName: String): TaskProvider<out Kapt> {
+    override fun registerKaptTask(taskName: String): TaskProvider<out Kapt> {
         val taskConfiguration = KaptWithoutKotlincConfig(myProject, kaptExtension)
         return myProject.registerTask(taskName, KaptWithoutKotlincTask::class.java, emptyList()).also {
             taskConfiguration.execute(it)

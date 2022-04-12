@@ -39,8 +39,8 @@ class KotlinCompileApiTest {
     fun setUpProject() {
         project = buildProject {}
         plugin = project.plugins.apply(KotlinBaseApiPlugin::class.java)
-        plugin.createKotlinCompileTask(TASK_NAME) { _, kotlinCompileOptions ->
-            options = kotlinCompileOptions
+        plugin.registerKotlinJvmCompileTask(TASK_NAME).configure { task ->
+            options = task.kotlinOptions
         }
         kotlinCompileTask = project.tasks.getByName(TASK_NAME) as KotlinCompile
     }
@@ -56,7 +56,7 @@ class KotlinCompileApiTest {
             it.createNewFile()
         }
         options.source.from(sourcePath)
-        assertEquals(setOf(sourcePath), kotlinCompileTask.stableSources.files)
+        assertEquals(setOf(sourcePath), kotlinCompileTask.sources.files)
 
         val sourcesDir = tmpDir.newFolder().also {
             it.resolve("a.kt").createNewFile()
@@ -65,7 +65,7 @@ class KotlinCompileApiTest {
         options.source.setFrom(sourcePath, sourcesDir)
         assertEquals(
             setOf(sourcePath, sourcesDir.resolve("a.kt"), sourcesDir.resolve("b.kt")),
-            kotlinCompileTask.stableSources.files
+            kotlinCompileTask.sources.files
         )
     }
 
@@ -80,7 +80,7 @@ class KotlinCompileApiTest {
     fun testClasspath() {
         val classpathEntries = setOf(tmpDir.newFolder(), tmpDir.newFolder())
         options.classpath.from(classpathEntries)
-        assertEquals(classpathEntries, kotlinCompileTask.classpath.files)
+        assertEquals(classpathEntries, kotlinCompileTask.libraries.files)
     }
 
     @Test
@@ -109,7 +109,7 @@ class KotlinCompileApiTest {
     fun testTaskBuildDirectory() {
         val taskBuildDir = tmpDir.newFolder()
         options.taskBuildDirectory.fileValue(taskBuildDir)
-        assertEquals(taskBuildDir, kotlinCompileTask.taskBuildDirectory.get().asFile)
+        assertEquals(taskBuildDir, kotlinCompileTask.destinationDirectory.get().asFile)
     }
 
     @Test
