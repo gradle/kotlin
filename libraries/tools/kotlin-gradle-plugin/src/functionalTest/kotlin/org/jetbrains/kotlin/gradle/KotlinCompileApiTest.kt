@@ -86,7 +86,7 @@ class KotlinCompileApiTest {
     @Test
     fun testPluginClasspath() {
         val pluginDependency = tmpDir.newFile()
-        plugin.addCompilerPluginDependency(project.files(pluginDependency))
+        plugin.addCompilerPluginDependency(project.provider { project.files(pluginDependency) })
 
         val anotherCompilerPlugin = tmpDir.newFile()
         options.pluginClasspath.from(plugin.getCompilerPlugins(), anotherCompilerPlugin)

@@ -6,6 +6,7 @@
 package org.jetbrains.kotlin.gradle.plugin
 
 import org.gradle.api.file.FileCollection
+import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.TaskProvider
 import org.jetbrains.kotlin.gradle.dsl.KaptExtensionConfig
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
@@ -38,7 +39,7 @@ interface KotlinJvmFactory {
     fun registerKaptTask(taskName: String): TaskProvider<out Kapt>
 
     /** Adds a compiler plugin dependency to this project. This can be e.g a Maven coordinate or a project included in the build. */
-    fun addCompilerPluginDependency(dependency: Any)
+    fun addCompilerPluginDependency(dependency: Provider<Any>)
 
     /** Returns a [FileCollection] that contains all compiler plugins classpath for this project. */
     fun getCompilerPlugins(): FileCollection

@@ -8,6 +8,7 @@ package org.jetbrains.kotlin.gradle.plugin
 import org.gradle.api.Project
 import org.gradle.api.file.FileCollection
 import org.gradle.api.logging.Logging
+import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.TaskProvider
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptionsImpl
@@ -34,8 +35,11 @@ abstract class KotlinBaseApiPlugin : KotlinBasePlugin(), KotlinJvmFactory {
         setupAttributeMatchingStrategy(project, isKotlinGranularMetadata = false)
     }
 
-    override fun addCompilerPluginDependency(dependency: Any) {
-        myProject.dependencies.add(PLUGIN_CLASSPATH_CONFIGURATION_NAME, dependency)
+    override fun addCompilerPluginDependency(dependency: Provider<Any>) {
+        myProject.dependencies.addProvider(
+            PLUGIN_CLASSPATH_CONFIGURATION_NAME,
+            dependency
+        )
     }
 
     override fun getCompilerPlugins(): FileCollection {
