@@ -46,6 +46,11 @@ abstract class KaptGenerateStubsTask @Inject constructor(
     objectFactory
 ), KaptGenerateStubs {
 
+    // Bug in Gradle - without this override Gradle complains @Internal is not
+    // compatible with @Classpath and @Incremental annotations
+    @get:Internal
+    abstract override val libraries: ConfigurableFileCollection
+
     @get:Internal
     internal abstract val excludedSourceDirs: ListProperty<File>
 
