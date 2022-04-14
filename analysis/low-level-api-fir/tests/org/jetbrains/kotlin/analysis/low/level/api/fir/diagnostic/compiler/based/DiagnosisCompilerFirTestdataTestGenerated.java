@@ -51,12 +51,6 @@ public class DiagnosisCompilerFirTestdataTestGenerated extends AbstractDiagnosis
         }
 
         @Test
-        @TestMetadata("assignOverload.kt")
-        public void testAssignOverload() throws Exception {
-            runTest("compiler/fir/analysis-tests/testData/resolve/assignOverload.kt");
-        }
-
-        @Test
         @TestMetadata("bareTypes.kt")
         public void testBareTypes() throws Exception {
             runTest("compiler/fir/analysis-tests/testData/resolve/bareTypes.kt");
@@ -2336,6 +2330,12 @@ public class DiagnosisCompilerFirTestdataTestGenerated extends AbstractDiagnosis
                 @Test
                 public void testAllFilesPresentInOperators() throws Exception {
                     KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/fir/analysis-tests/testData/resolve/expresssions/operators"), Pattern.compile("^([^.]+)\\.kt$"), null, true);
+                }
+
+                @Test
+                @TestMetadata("assignOperatorOverload.kt")
+                public void testAssignOperatorOverload() throws Exception {
+                    runTest("compiler/fir/analysis-tests/testData/resolve/expresssions/operators/assignOperatorOverload.kt");
                 }
 
                 @Test

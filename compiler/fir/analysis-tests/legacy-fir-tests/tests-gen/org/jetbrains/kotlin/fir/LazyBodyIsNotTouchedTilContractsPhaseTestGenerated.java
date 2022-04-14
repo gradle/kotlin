@@ -49,11 +49,6 @@ public class LazyBodyIsNotTouchedTilContractsPhaseTestGenerated extends Abstract
         runTest("compiler/fir/analysis-tests/testData/resolve/asImports.kt");
     }
 
-    @TestMetadata("assignOverload.kt")
-    public void testAssignOverload() throws Exception {
-        runTest("compiler/fir/analysis-tests/testData/resolve/assignOverload.kt");
-    }
-
     @TestMetadata("bareTypes.kt")
     public void testBareTypes() throws Exception {
         runTest("compiler/fir/analysis-tests/testData/resolve/bareTypes.kt");
@@ -2042,6 +2037,11 @@ public class LazyBodyIsNotTouchedTilContractsPhaseTestGenerated extends Abstract
 
             public void testAllFilesPresentInOperators() throws Exception {
                 KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/fir/analysis-tests/testData/resolve/expresssions/operators"), Pattern.compile("^([^.]+)\\.kt$"), null, true);
+            }
+
+            @TestMetadata("assignOperatorOverload.kt")
+            public void testAssignOperatorOverload() throws Exception {
+                runTest("compiler/fir/analysis-tests/testData/resolve/expresssions/operators/assignOperatorOverload.kt");
             }
 
             @TestMetadata("plus.kt")
