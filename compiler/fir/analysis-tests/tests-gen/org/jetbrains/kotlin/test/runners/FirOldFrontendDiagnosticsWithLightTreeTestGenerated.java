@@ -22095,6 +22095,12 @@ public class FirOldFrontendDiagnosticsWithLightTreeTestGenerated extends Abstrac
             }
 
             @Test
+            @TestMetadata("assignOldFrontendDisabled.kt")
+            public void testAssignOldFrontendDisabled() throws Exception {
+                runTest("compiler/testData/diagnostics/tests/operatorsOverloading/assignOldFrontendDisabled.kt");
+            }
+
+            @Test
             @TestMetadata("AssignOperatorAmbiguity.kt")
             public void testAssignOperatorAmbiguity() throws Exception {
                 runTest("compiler/testData/diagnostics/tests/operatorsOverloading/AssignOperatorAmbiguity.kt");
