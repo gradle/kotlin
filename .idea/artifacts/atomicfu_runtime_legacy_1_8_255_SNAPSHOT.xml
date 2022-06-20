@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="atomicfu-runtime-legacy-1.8.255-SNAPSHOT">
+    <output-path>$PROJECT_DIR$/plugins/atomicfu/atomicfu-runtime/build/libs</output-path>
+    <root id="archive" name="atomicfu-runtime-legacy-1.8.255-SNAPSHOT.jar">
+      <element id="module-output" name="kotlin.atomicfu-runtime.main" />
+    </root>
+  </artifact>
+</component>
