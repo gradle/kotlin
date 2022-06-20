@@ -262,7 +262,7 @@ enum class LanguageFeature(
     SynchronizedSuspendError(KOTLIN_1_8),
     EnableDfaWarningsInK2(KOTLIN_1_8, kind = OTHER), // KT-50965
     ReportNonVarargSpreadOnGenericCalls(KOTLIN_1_8, kind = BUG_FIX), // KT-48162
-    AssignOperatorOverloadForJvmOldFrontend(KOTLIN_1_8),
+    AssignOperatorOverloadForJvm(KOTLIN_1_8),
 
     // 1.9
 
